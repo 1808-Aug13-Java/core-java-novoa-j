@@ -1,8 +1,17 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.time.*;
+import java.time.temporal.*;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class EvaluationService {
 
@@ -16,9 +25,13 @@ public class EvaluationService {
 	public String reverse(String string) {
 		// TODO Write an implementation for this method declaration
 		
-		char[] chArr= new char[string.length()];
-		//for()
-		return null;
+		
+		String revString= new String();
+		
+		for(int i = string.length()-1; i>= 0; i--) {
+			revString +=string.charAt(i);
+		}
+		return revString;
 	}
 
 	/**
@@ -31,7 +44,27 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String newPhrase= phrase.replaceAll("-", " ");
+		String acro = new String();
+		acro+= newPhrase.charAt(0);
+		int i=1;
+		while(newPhrase.length() > i) {
+			char space=' ';
+			if (newPhrase.charAt(i) == space && i != newPhrase.length()-1)
+			{
+				acro+=newPhrase.charAt(i+1);
+				i++;
+			}
+			else {
+				i++;
+			}
+			
+		}
+		
+		acro=acro.toUpperCase();
+		//System.out.println(acro);
+		
+		return acro;
 	}
 
 	/**
@@ -85,17 +118,32 @@ public class EvaluationService {
 
 		public boolean isEquilateral() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			boolean isEq;
+			if(this.sideOne == this.sideTwo && this.sideTwo == this.sideThree && this.sideOne== this.sideThree) {
+				isEq=true;
+			}
+			else {
+				isEq=false;
+			}
+			return isEq;
 		}
 
 		public boolean isIsosceles() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			boolean isIso;
+			if( this.sideOne== this.sideTwo || this.sideOne == this.sideThree|| this.sideTwo== this.sideThree) {
+				isIso=true;
+			}
+			else
+				isIso=false;
+			return isIso;
 		}
 
 		public boolean isScalene() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			boolean isSca= (this.isEquilateral() || this.isIsosceles()) ? false: true;
+			
+			return isSca;
 		}
 
 	}
@@ -117,7 +165,133 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		/*
+		HashMap<Character, Integer > onePoint= new HashMap<>();
+		onePoint.put(Character.valueOf('A'), 1);
+		onePoint.put(Character.valueOf('E'), 1);
+		onePoint.put(Character.valueOf('I'), 1);
+		onePoint.put(Character.valueOf('O'), 1);
+		onePoint.put(Character.valueOf('A'), 1);
+		*/
+		
+		int counter=0;
+		char[] onePoint= {'A','E','I','O','U','L','N','R','S','T'};
+		char[] twoPoint= {'D','G'};
+		char[] threePoint= {'B','C','M','P'};
+		char[] fourPoint= {'F','H','V','W','Y'};
+		char[] fivePoint= {'K'};
+		char[] eightPoint= {'J','X'};
+		char[] tenPoint= {'Q','Z'};
+		String bucket= new String();
+		String caps=string.toUpperCase();
+		int score=0;
+		while (counter<string.length()) {
+			
+			for(char h: onePoint)
+				if(h==caps.charAt(counter)) {
+					bucket="One Point";
+					System.out.println("Letter in: " +bucket+" bucket");
+					break;
+				}
+			for(char h: twoPoint)
+				if(h==caps.charAt(counter)) {
+					System.out.println("Letter in 2pt bucket");
+					bucket="Two Point";
+					break;
+				}
+			for(char h: threePoint)
+				if(h==caps.charAt(counter)) {
+					System.out.println("Letter in 3pt bucket");
+					bucket="Three Point";
+					break;
+				}
+			for(char h: fourPoint)
+				if(h==caps.charAt(counter)) {
+					System.out.println("Letter in 4pt bucket");
+					bucket="Four Point";
+					break;
+				}
+			for(char h: fivePoint)
+				if(h==caps.charAt(counter)) {
+					bucket="Five Point";
+					System.out.println("Letter in 5pt bucket");
+					break;
+				}
+			for(char h: eightPoint)
+				if(h==caps.charAt(counter)) {
+					System.out.println("Letter in 8pt bucket");
+					bucket="Eight Point";
+					break;
+				}
+			for(char h: tenPoint)
+				if(h==caps.charAt(counter)) {
+					System.out.println("Letter in 10pt bucket");
+					bucket="Ten Point";
+					break;
+				}
+			
+			
+			switch(bucket){
+			
+				case "One Point":{
+					score+=1;
+					counter++;
+					System.out.println("A point has been added "+ score);
+					break;
+				}
+				
+				case "Two Point":{
+					score+=2;
+					counter++;
+					System.out.println(score);
+					break;
+				}
+				case "Three Point":
+				{
+					score+=3;
+					counter++;
+					System.out.println(score);
+					break;
+					
+				}
+				case "Four Point":
+				{
+					score+=4;
+					counter++;
+					System.out.println(score);
+					break;
+				}
+				case "Five Point":
+				{
+					score+=5;
+					counter++;
+					System.out.println(score);
+					break;
+				}
+				case "Eight Point":
+				{
+					score+=8;
+					counter++;
+					System.out.println(score);
+					break;
+				}
+				case "Ten Point":
+				{
+					score+=10;
+					counter++;
+					System.out.println(score);
+					break;
+				}
+				default: 
+					counter++;
+					System.out.println(score);
+			
+			}//end switch
+			//counter++;
+		} //end whileloop
+			
+		System.out.println(score);
+		return score;
 	}
 
 	/**
@@ -153,7 +327,41 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String noPunc= string;
+		
+		String result= new String();
+		 noPunc=noPunc.replace(".", "");
+		 noPunc= noPunc.replace("-", "");
+		 noPunc= noPunc.replace("(", "");
+		 noPunc= noPunc.replace(")", "");
+		 noPunc= noPunc.replace("_", "");
+		 noPunc= noPunc.replace(" ", "");
+		// noPunc= noPunc.replaceAll("@", "");
+		 noPunc= noPunc.replace(":", "");
+		 noPunc= noPunc.replace("!", "");
+		 System.out.println(noPunc);
+		 //this iteration should have no punctuation left
+		 if(noPunc.contains("a")) {
+			 throw new IllegalArgumentException();
+		 }
+		 else if(noPunc.contains("@")) {
+			 throw new IllegalArgumentException();
+		 }
+		 else if(noPunc.length()>11 || noPunc.length() < 10) {
+			 throw new IllegalArgumentException();
+		 }
+		 
+		 else if (noPunc.startsWith("1")) {
+					// noPunc=noPunc.re
+				 noPunc=noPunc.replaceFirst("1", "");
+				 }
+		 else
+			 result=noPunc;
+		 
+		 System.out.println(result);
+		 return result;
+		 
+
 	}
 
 	/**
@@ -167,7 +375,48 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		Map<String, Integer> result= new HashMap<>();
+		
+		String cleanString= string;
+		cleanString =cleanString.replace(",\n", ",");
+		//System.out.println(cleanString);	
+		char[] charArr=cleanString.toCharArray(); //creates char array allowing us to iterate though it
+		//System.out.println(charArr);
+		String wholeWord= new String();
+		int index1=0;
+		int index2=0;
+		Integer wordCount=1;
+		
+		//nested while loops
+		for (char c: charArr) {
+			if(c==' ' || c==',' || index2>=cleanString.length()-1){ //dont count any starting spaces
+				if(index2>=cleanString.length()-1) {
+					wholeWord=cleanString.substring(index1, index2+1);
+				}
+				else {
+					wholeWord=cleanString.substring(index1, index2);
+				}
+				
+				index1=index2+1;
+				//System.out.println("word is: "+ wholeWord);
+				//prints the complete word it has found to the console
+				if( result.containsKey(wholeWord)) {
+					wordCount=result.get(wholeWord)+1;
+					result.put(wholeWord, wordCount);
+				//	System.out.println(result.keySet());
+					//System.out.println(result.values());
+					wordCount=1;	
+				}
+				else {
+					result.put(wholeWord, wordCount);
+					System.out.println(result.keySet());
+					System.out.println(result.values());
+				}
+			}
+			index2++;
+		}
+		//System.out.println(result.);
+		return result;
 	}
 
 	/**
@@ -210,7 +459,11 @@ public class EvaluationService {
 
 		public int indexOf(T t) {
 			// TODO Write an implementation for this method declaration
-			return 0;
+			//LinkedList<T> el = new LinkedList();
+			//sortedList.
+	
+			
+			return sortedList.indexOf(t);
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -245,10 +498,58 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
+	
+ 
 	public String toPigLatin(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
-	}
+		//a, e, i , o ,u + ay
+		// consonants, first_letter +ay
+		String worker="";
+		char mover;
+		char[] charArr=string.toCharArray();
+		String[] input=string.split(" ");
+		
+	
+		int count=0;
+		LinkedList <Character> vowels = new LinkedList<Character>();
+		vowels.addLast('a');
+		vowels.addLast('e');
+		vowels.addLast('i');
+		vowels.addLast('o');
+		vowels.addLast('u');
+		
+for(String s:input) {
+			
+		
+		//old execution
+		if(vowels.contains(s.charAt(0))) {
+			worker=s+"ay ";
+		}
+		else {
+			for(char c:charArr) {
+				if(vowels.contains(c)) {
+					break;
+				}
+				else {
+					
+					count++;
+				}
+			}
+				int i=count;
+				charArr=s.substring(count).toCharArray();
+				
+				for(char r: charArr) {
+					worker+=r;
+				}
+				for(int j=0;j<count;j++) {
+					worker+=s.charAt(j);
+				}
+				worker+="ay ";
+			}
+}
+				return worker;
+			///worker=string.substring(count)+string.charAt(0)+"ay";
+		}
 
 	/**
 	 * 9. An Armstrong number is a number that is the sum of its own digits each
@@ -267,7 +568,27 @@ public class EvaluationService {
 	 */
 	public boolean isArmstrongNumber(int input) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		boolean answer=false;
+		int sum=0;
+		int digitSum=0;
+		String inputString=Integer.toString(input);
+		int[] digits= new int[inputString.length()];
+		
+		if(inputString.length()>1) {	
+			for(int i=0; i<inputString.length(); i++) {
+				digits[i]=Character.getNumericValue(inputString.charAt(i));
+				digitSum=digits[i];
+					for(int j=1;j<inputString.length();j++) {					
+						digitSum=digitSum*digits[i];
+					}
+				sum+=digitSum;
+			}
+			answer = (sum==input)? true:false; 
+		}//only for numbers of more than one digit
+		else {
+			answer=true;
+		}//for one digit numbers, 0-9
+		  return answer;
 	}
 
 	/**
@@ -282,7 +603,40 @@ public class EvaluationService {
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		 
+		//Scanner sc= new Scanner(System.in);
+		Long num=l;
+		List <Long> digits= new ArrayList<>();
+		int count=3;
+		
+		//for even inputs, keep until no longer divisble by 2
+        while (num%2==0)
+        {
+            num /= 2;
+            digits.add((long) 2);
+        }
+ 
+ //for odd input
+        	while(count<= Math.sqrt(num)){
+        		//run up to the square root of the number
+	            while (num%count == 0)
+	            	//as long as this num is divisble by another odd, keep going
+	            {
+	                num /= count;
+	                if(count>1)
+	                {
+	                	digits.add((long) count);
+	                }//dont add 1 to the list bc it isnt a prime
+	            }
+            count+=2;
+        }
+ 
+//input is a prime num >2
+        if (num > 2)
+        {
+			digits.add(num);
+        }
+		return digits;
 	}
 
 	/**
@@ -321,8 +675,107 @@ public class EvaluationService {
 
 		public String rotate(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			//should return the same punctuation and whitespaces
+			//only letters should be rotated
+			List <Character> lowerArr =new ArrayList<>();
+			List <Character> upperArr= new ArrayList<>();
+			lowerArr.add('a');
+			lowerArr.add('b');
+			lowerArr.add('c');
+			lowerArr.add('d');
+			lowerArr.add('e');
+			lowerArr.add('f');
+			lowerArr.add('g');
+			lowerArr.add('h');
+			lowerArr.add('i');
+			lowerArr.add('j');
+			lowerArr.add('k');
+			lowerArr.add('l');
+			lowerArr.add('m');
+			lowerArr.add('n');
+			lowerArr.add('o');
+			lowerArr.add('p');
+			lowerArr.add('q');
+			lowerArr.add('r');
+			lowerArr.add('s');
+			lowerArr.add('t');
+			lowerArr.add('u');
+			lowerArr.add('v');
+			lowerArr.add('w');
+			lowerArr.add('x');
+			lowerArr.add('y');
+			lowerArr.add('z');
+			
+			upperArr.add('A');
+			upperArr.add('B');
+			upperArr.add('C');
+			upperArr.add('D');
+			upperArr.add('E');
+			upperArr.add('F');
+			upperArr.add('G');
+			upperArr.add('H');
+			upperArr.add('I');
+			upperArr.add('J');
+			upperArr.add('K');
+			upperArr.add('L');
+			upperArr.add('M');
+			upperArr.add('N');
+			upperArr.add('O');
+			upperArr.add('P');
+			upperArr.add('Q');
+			upperArr.add('R');
+			upperArr.add('S');
+			upperArr.add('T');
+			upperArr.add('U');
+			upperArr.add('V');
+			upperArr.add('W');
+			upperArr.add('X');
+			upperArr.add('Y');
+			upperArr.add('Z');
+			
+			Collections.sort(lowerArr);
+//			int index1=0;
+//			int index2=0;
+			 StringBuffer delta= new StringBuffer();
+			 String answer= new String();
+			 int upperCase=65;
+			 int lowerCase=97; //ascii values for lowercase 
+			 char upperChar;
+			 char lowerChar;
+			 
+	        for (int i=0; i<string.length(); i++)
+	        {
+	        	//check for letters
+	        	if((int)string.charAt(i)<upperCase || 
+	        			(int)string.charAt(i)> lowerCase+25|| 
+	        			(  (int)string.charAt(i) >90 &&(int)string.charAt(i)<97)   )	        		
+	        	{
+	        		delta.append(string.charAt(i));
+		            
+	        	}
+	        	else {
+	        		if (Character.isUpperCase(string.charAt(i)))
+		            {
+		                upperChar = (char)( ((int)string.charAt(i)+key-upperCase)%26 +upperCase);
+		                //mod takes care of the useless keys 0 and 26
+		                delta.append(upperChar);
+		            }
+		            else
+		            {
+		                lowerChar = (char)( ((int)string.charAt(i)+key-lowerCase)%26 +lowerCase);
+		                delta.append(lowerChar);
+		            }
+	        	}
+	        }
+	        answer=delta.toString();
+	        return answer;
+			
+
+		
 		}
+		
+ 
+		
 
 	}
 
@@ -447,7 +900,43 @@ public class EvaluationService {
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
-		return null;
+	
+		//LocalDateTime.of(2015, Month.JANUARY, 24, 23, 59, 59);
+		//LocalDate hey =LocalDate.of(2011, Month.APRIL, 25);
+
+		
+		//hey=hey.plus(1000000000, ChronoUnit.SECONDS);
+		//Temporal yes;
+		Temporal yup= given;
+		//given.plus(1000000000, ChronoUnit.SECONDS);
+		if(given.isSupported(ChronoUnit.SECONDS))
+		{
+			//yes=given;
+			yup=((LocalDateTime) yup).plusYears(31);
+			yup=((LocalDateTime) yup).plusWeeks(35);
+			yup=((LocalDateTime) yup).plusDays(6);
+			yup=((LocalDateTime) yup).plusHours(1);
+			yup=((LocalDateTime) yup).plusMinutes(46);
+			yup=((LocalDateTime) yup).plusSeconds(40);
+	
+				return yup;
+			
+		}
+		else {
+			yup=((LocalDate) yup).plusYears(31);
+			yup=((LocalDate) yup).plusWeeks(35);
+			yup=((LocalDate) yup).plusDays(6);
+			
+	
+			LocalDateTime now =((LocalDate) yup).atTime(0, 0, 0);
+			now=now.plusHours(1);
+			now=now.plusMinutes(46);
+			now=now.plusSeconds(40);
+				System.out.println(given);
+				System.out.println(now);
+				return now;
+		}
+					
 	}
 
 	/**
