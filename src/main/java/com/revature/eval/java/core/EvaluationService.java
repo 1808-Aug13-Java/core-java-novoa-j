@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javax.xml.stream.events.Characters;
+
 public class EvaluationService {
 
 	/**
@@ -538,7 +540,7 @@ public class EvaluationService {
 		char[] charArr=string.toCharArray();
 		String[] input=string.split(" ");
 		
-	
+		int str=0;
 		int count=0;
 		LinkedList <Character> vowels = new LinkedList<Character>();
 		vowels.addLast('a');
@@ -549,33 +551,39 @@ public class EvaluationService {
 		
 for(String s:input) {
 			
-		
-		//old execution
-		if(vowels.contains(s.charAt(0))) {
-			worker=s+"ay ";
-		}
-		else {
-			for(char c:charArr) {
-				if(vowels.contains(c)) {
-					break;
-				}
-				else {
-					
-					count++;
-				}
-			}
-				int i=count;
-				charArr=s.substring(count).toCharArray();
+			
+			//old execution
+			if(vowels.contains(s.charAt(0))) {
 				
-				for(char r: charArr) {
-					worker+=r;
-				}
-				for(int j=0;j<count;j++) {
-					worker+=s.charAt(j);
-				}
-				worker+="ay ";
+				worker=s+"ay";
+				str++;
 			}
-}
+			else {
+				for(char c:charArr) {
+					if(vowels.contains(c)) {
+						break;
+					}
+					else {
+						
+						count++;
+					}
+				}
+					int i=count;
+					charArr=s.substring(count).toCharArray();
+					
+					for(char r: charArr) {
+						worker+=r;
+					}
+					for(int j=0;j<count;j++) {
+						worker+=s.charAt(j);
+					}
+					worker+="ay";
+					str++;
+				}
+			if(str<input.length) {
+				worker+=" ";
+			}
+			}
 				return worker;
 			///worker=string.substring(count)+string.charAt(0)+"ay";
 		}
@@ -717,6 +725,7 @@ for(String s:input) {
 			 int lowerCase=97; //ascii values for lowercase 
 			 char upperChar;
 			 char lowerChar;
+			 
 			 
 	        for (int i=0; i<string.length(); i++)
 	        {
@@ -865,6 +874,7 @@ for(String s:input) {
 			bet.put('y', 'b');
 			bet.put('z', 'a');
 			
+			
 //			//similar to Caesar cipher
 //			int shift=25;
 			char delta;
@@ -988,7 +998,54 @@ for(String s:input) {
 	 */
 	public boolean isValidIsbn(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		String h=string;
+		String clean =h.replace("-", "");
+		System.out.println(clean);
+		boolean result=false;
+		int sum=0;
+		int count=10;
+		//int r=0;
+		HashSet<String> valids= new HashSet<>();
+		valids.add("X");
+		valids.add("0");
+		valids.add("1");
+		valids.add("2");
+		valids.add("3");
+		valids.add("4");
+		valids.add("5");
+		valids.add("6");
+		valids.add("7");
+		valids.add("8");
+		valids.add("9");
+	
+		
+		for (int i=0; i< clean.length();i++) {
+			if( valids.contains(String.valueOf(clean.charAt(i)))) {
+				if(clean.charAt(i) =='X') {
+					System.out.println(true);
+					sum+=10;	
+				}
+				else {
+					sum+= Integer.parseInt(String.valueOf(clean.charAt(i))) *(count);
+				}
+				count--;
+				System.out.println(sum);
+				
+			}
+			else {
+				
+				return false;
+			}		
+		}
+		return (sum%11==0) ? true:false;
+//		String.va)
+//		char [] is= string.toCharArray();
+//		for(char c:is) {
+//			if((int) String.valueOf(c) <1  ) {
+//				
+//			}
+		
+		
 	}
 
 	/**
@@ -1006,7 +1063,33 @@ for(String s:input) {
 	 */
 	public boolean isPangram(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		String clean=string.replace(" ", "");
+		clean=clean.toLowerCase();
+		boolean [] haha= new boolean[26];
+		char [] input=string.toCharArray();
+		char [] alpha= {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+		int indexA=0;
+		int count=0;
+		
+		for (int i=0;i<clean.length();i++) {
+			for(int j=0;j<26;j++) {
+				if(clean.charAt(i)==alpha[j])
+				{
+					haha[j]=true;
+				}
+			}
+		}
+		
+		for(int k=0;k<26;k++) {
+			if(haha[k]==false)
+			{
+				return false;
+			}
+		}
+		
+		
+		
+		return true;
 	}
 
 	/**
@@ -1152,7 +1235,49 @@ for(String s:input) {
 	 */
 	public boolean isLuhnValid(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		HashSet<Character> check= new HashSet<>();
+		check.add('1');
+		check.add('2');
+		check.add('3');
+		check.add('4');
+		check.add('5');
+		check.add('6');
+		check.add('7');
+		check.add('8');
+		check.add('9');
+		check.add('0');
+		
+		
+		String clean=string.replace(" ", "");
+		System.out.println(clean);
+	//	char [] working=string.toCharArray();
+		int length = clean.length();
+		int sum=0;
+		int dbl; 
+	    int nSum = 0;
+	    boolean thisOne = false;
+	    for (int i = length - 1; i >= 0; i--) 
+	    {	
+	    	if( check.contains(
+	    					clean.charAt(i)) ) {
+	    		
+		        if (thisOne == true)
+		        {
+		        	 dbl= Integer.parseInt( String.valueOf(clean.charAt(i)))  * 2;
+		        	dbl= (dbl>9)? dbl-9:dbl;
+		        	sum+=dbl;
+		        	System.out.println(dbl);
+		        	
+		        }
+		        sum+=Integer.parseInt( String.valueOf(clean.charAt(i)));
+		        thisOne = !thisOne;
+	    	}
+	    	else {
+	    		return false;
+	    	}
+	    }
+	    return (sum % 10 == 0);
+		
 	}
 
 	/**
@@ -1169,7 +1294,7 @@ for(String s:input) {
 	 * 
 	 * What is 7 minus 5?
 	 * 
-	 * 2
+	 * 
 	 * 
 	 * What is 6 multiplied by 4?
 	 * 
