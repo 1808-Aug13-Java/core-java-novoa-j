@@ -1309,7 +1309,55 @@ for(String s:input) {
 	 */
 	public int solveWordProblem(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		int result=0;
+		int index=0;
+		int count=0;
+		boolean actionFlag=false;
+		String action=null;
+		String clean=string.replace("?", "");
+		Integer[] digits= new Integer[2];
+		String [] newstr=clean.split(" ");
+		for (String s:newstr) {
+			if (Character.isDigit(s.charAt(0)) || s.charAt(0) == '-') {
+				digits[index]=Integer.parseInt(s);
+				System.out.println(digits[index]);
+				index++;
+				count++;
+				actionFlag=true;	
+			}
+			else if(count==1) {
+				action=s;
+				count=0;
+				actionFlag=!actionFlag;	
+				System.out.println(action);
+			}//first digit was found, save the word to manipulate
+			
+		}
+			
+			switch(action) {
+			case "plus":{
+				result=digits[0]+digits[1];
+				break;
+			}
+			case"minus":{
+				result=digits[0]-digits[1];
+				break;
+			}
+			case "multiplied":{
+				result=digits[0]*digits[1];
+				break;
+			}
+			case"divided":{
+				result=digits[0]/digits[1];
+				break;
+			}
+			default:
+				return 0;
+				
+			}
+		
+		//hold the digits to be used in an integer array
+		return result;
 	}
 	
 }
