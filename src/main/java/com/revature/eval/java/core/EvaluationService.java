@@ -7,11 +7,15 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class EvaluationService {
 
@@ -461,9 +465,34 @@ public class EvaluationService {
 			// TODO Write an implementation for this method declaration
 			//LinkedList<T> el = new LinkedList();
 			//sortedList.
-	
+			String w="w";
 			
-			return sortedList.indexOf(t);
+			
+			Comparator<T> c = new Comparator<T>() {
+				@Override
+				public int compare(T a, T b) {
+					// TODO Auto-generated method stub
+					if(t instanceof String)
+					{
+					return ((String) a).compareTo((String) b);
+					}
+					else {
+						return ((Integer) a).compareTo((Integer) b);
+					}
+				}};
+				
+				
+			   //   sortedList.sort(c);
+			
+			      
+			
+			
+			
+		
+	
+			//sortedList.indexOf(t);
+			//that works
+			return Collections.binarySearch(sortedList, t, c);
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -677,63 +706,9 @@ for(String s:input) {
 			// TODO Write an implementation for this method declaration
 			//should return the same punctuation and whitespaces
 			//only letters should be rotated
-			List <Character> lowerArr =new ArrayList<>();
-			List <Character> upperArr= new ArrayList<>();
-			lowerArr.add('a');
-			lowerArr.add('b');
-			lowerArr.add('c');
-			lowerArr.add('d');
-			lowerArr.add('e');
-			lowerArr.add('f');
-			lowerArr.add('g');
-			lowerArr.add('h');
-			lowerArr.add('i');
-			lowerArr.add('j');
-			lowerArr.add('k');
-			lowerArr.add('l');
-			lowerArr.add('m');
-			lowerArr.add('n');
-			lowerArr.add('o');
-			lowerArr.add('p');
-			lowerArr.add('q');
-			lowerArr.add('r');
-			lowerArr.add('s');
-			lowerArr.add('t');
-			lowerArr.add('u');
-			lowerArr.add('v');
-			lowerArr.add('w');
-			lowerArr.add('x');
-			lowerArr.add('y');
-			lowerArr.add('z');
+		
 			
-			upperArr.add('A');
-			upperArr.add('B');
-			upperArr.add('C');
-			upperArr.add('D');
-			upperArr.add('E');
-			upperArr.add('F');
-			upperArr.add('G');
-			upperArr.add('H');
-			upperArr.add('I');
-			upperArr.add('J');
-			upperArr.add('K');
-			upperArr.add('L');
-			upperArr.add('M');
-			upperArr.add('N');
-			upperArr.add('O');
-			upperArr.add('P');
-			upperArr.add('Q');
-			upperArr.add('R');
-			upperArr.add('S');
-			upperArr.add('T');
-			upperArr.add('U');
-			upperArr.add('V');
-			upperArr.add('W');
-			upperArr.add('X');
-			upperArr.add('Y');
-			upperArr.add('Z');
-			
-			Collections.sort(lowerArr);
+		//	Collections.sort(lowerArr);
 //			int index1=0;
 //			int index2=0;
 			 StringBuffer delta= new StringBuffer();
@@ -793,7 +768,38 @@ for(String s:input) {
 	 */
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		//how to find out if the current number is prime
+		if(i==0) {
+			throw new IllegalArgumentException();
+		}
+		Vector<Integer> primes= new Vector<>();
+		int j=2;
+		boolean prime =true;
+		while (primes.size()<i) {		
+			for(int h = 2; h < j; ++h) {
+		        if (j % h == 0) {
+		            // We are naive, but not stupid, if
+		            // the number has a divisor other
+		            // than 1 or itself, we return immediately.
+		            prime= false;
+		            break;
+		        }
+		        prime=true;
+		    }
+		    //is a prime no
+			if (prime)
+			{
+			primes.add(j);
+			}
+			j++;
+		}
+		
+	    int index=primes.size();
+	    int answer=primes.get(index-1);
+	    System.out.println(primes);
+	    
+		return answer;
 	}
 
 	/**
@@ -812,7 +818,7 @@ for(String s:input) {
 	 * monoalphabetic substitution cipher. However, this may not have been an issue
 	 * in the cipher's time.
 	 * 
-	 * Ciphertext is written out in groups of fixed length, the traditional group
+	 * Ciphertext is written out in  groups of fixed length, the traditional group
 	 * size being 5 letters, and punctuation is excluded. This is to make it harder
 	 * to guess things based on word boundaries.
 	 * 
@@ -830,8 +836,68 @@ for(String s:input) {
 		 */
 		public static String encode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			
+			HashMap<Character, Character> bet= new HashMap<>();
+			bet.put('a', 'z');
+			bet.put('b', 'y');
+			bet.put('c', 'x');
+			bet.put('d', 'w');
+			bet.put('e', 'v');
+			bet.put('f', 'u');
+			bet.put('g', 't');
+			bet.put('h', 's');
+			bet.put('i', 'r');
+			bet.put('j', 'q');
+			bet.put('k', 'p');
+			bet.put('l', 'o');
+			bet.put('m', 'n');
+			bet.put('n', 'm');
+			bet.put('o', 'l');
+			bet.put('p', 'k');
+			bet.put('q', 'j');
+			bet.put('r', 'i');
+			bet.put('s', 'h');
+			bet.put('t', 'g');
+			bet.put('u', 'f');
+			bet.put('v', 'e');
+			bet.put('w', 'd');
+			bet.put('x', 'c');
+			bet.put('y', 'b');
+			bet.put('z', 'a');
+			
+//			//similar to Caesar cipher
+//			int shift=25;
+			char delta;
+//			int lower=97;
+			StringBuilder bash= new StringBuilder();
+			String small=string.toLowerCase();
+			int count=0;
+			for (int i=0; i<small.length();i++) {		
+				if(count ==5 && i<small.length()-1) {
+					bash.append(" ");
+					count=0;
+				}
+				if(small.charAt(i) > 96 && small.charAt(i) <123 ) {
+					delta=bet.get(small.charAt(i));
+					bash.append(delta);
+					System.out.println(delta);
+					count++;
+				}
+				else if(small.charAt(i) >47 && small.charAt(i)<58 ){
+					//if its a number
+					bash.append(small.charAt(i));
+					count++;
+				}
+				else
+				{}
+			}
+			return bash.toString();
+			
 		}
+			
+			
+
+		
 
 		/**
 		 * Question 14
@@ -841,9 +907,62 @@ for(String s:input) {
 		 */
 		public static String decode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			HashMap<Character, Character> bet= new HashMap<>();
+			bet.put('a', 'z');
+			bet.put('b', 'y');
+			bet.put('c', 'x');
+			bet.put('d', 'w');
+			bet.put('e', 'v');
+			bet.put('f', 'u');
+			bet.put('g', 't');
+			bet.put('h', 's');
+			bet.put('i', 'r');
+			bet.put('j', 'q');
+			bet.put('k', 'p');
+			bet.put('l', 'o');
+			bet.put('m', 'n');
+			bet.put('n', 'm');
+			bet.put('o', 'l');
+			bet.put('p', 'k');
+			bet.put('q', 'j');
+			bet.put('r', 'i');
+			bet.put('s', 'h');
+			bet.put('t', 'g');
+			bet.put('u', 'f');
+			bet.put('v', 'e');
+			bet.put('w', 'd');
+			bet.put('x', 'c');
+			bet.put('y', 'b');
+			bet.put('z', 'a');
+			char delta;
+//			int lower=97;
+			StringBuilder bash= new StringBuilder();
+			String small=string.toLowerCase();
+			int count=0;
+			for (int i=0; i<small.length();i++) {		
+				
+				if(small.charAt(i) > 96 && small.charAt(i) <123 ) {
+					delta=bet.get(small.charAt(i));
+					bash.append(delta);
+					System.out.println(delta);
+					count++;
+				}
+				else if(small.charAt(i) >47 && small.charAt(i)<58 ){
+					//if its a number
+					bash.append(small.charAt(i));
+					count++;
+				}
+				else
+				{}
+			}
+			return bash.toString();
+			
+			
+			//return null;
 		}
+		
 	}
+	
 
 	/**
 	 * 15. The ISBN-10 verification process is used to validate book identification
@@ -954,7 +1073,45 @@ for(String s:input) {
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		/*
+		 * for every int in the set, mod each number, increasing by one
+		 * if the current number is divisible by any of the numbers in the set , save it, then add them all up
+		 */
+		//StringBuilder mults= new StringBuilder();
+		//Vector<String> sum= new Vector<>();
+		HashSet<Integer> yup= new HashSet();
+		int sum=0;
+		
+		//mults.
+		
+//		for(int h:set) {
+//			mults.append(h);
+//		}
+		
+		int count=0;
+		while(count <i) {
+			//do stuff
+			for(int j:set) {
+				if(count%j ==0) {
+					//sum.add(count);	
+					yup.add(count);
+				}
+			}
+			count++;
+		}
+		
+		for(Integer q:yup) {
+			sum+=q;
+		}
+//		Iterator sumIt= yup.iterator();
+//		while(sumIt.hasNext()) {
+//			sum+=sumIt.
+//			sumIt.next();
+//		}
+		
+		
+		return sum;
 	}
 
 	/**
@@ -1029,5 +1186,5 @@ for(String s:input) {
 		// TODO Write an implementation for this method declaration
 		return 0;
 	}
-
+	
 }
